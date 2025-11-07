@@ -46,7 +46,7 @@ const TaskItem = ({ props }) => {
                         <div className="flex flex-col">
                             <h3 className="text-md font-semibold text-gray-100 pb-2">Niveau de priorité </h3>
                             <p className="text-gray-300">
-                                {props.priority === "low" && 'Faible'}
+                                {props.priority === "lower" && 'Faible'}
                                 {props.priority === "medium" && 'Moyen'}
                                 {props.priority === "high" && 'Elevé'}
                             </p>
@@ -59,20 +59,19 @@ const TaskItem = ({ props }) => {
                             </p>
                         </div>
                     </div>
-                    <div className="flex flex-row gap-2 items-center">
-                        <h3 className="text-md font-semibold text-gray-100 pb-2">Tache terminée </h3>
-                        <div className="flex flex-row gap-2 pb-2">
-                            {props.completed ?
-                                (<>
-                                    <GoIssueClosed className="text-xl text-green-400" />
-                                </>)
-                        
-                            :
-                                (<>
-                                    <IoIosCloseCircleOutline className="text-xl text-red-500" />
-                                </>)
+                    <div className="flex flex-row gap-2 items-center pb-2">
+                        {props.completed ?
+                            (<>
+                                <h3 className="text-md font-semibold text-gray-100">Tache terminée </h3>
+                                <GoIssueClosed className="text-xl text-green-400" />
+                            </>)
+                    
+                        :
+                            (<>
+                                <h3 className="text-md font-semibold text-gray-100">Tache non terminée </h3>
+                                <IoIosCloseCircleOutline className="text-xl text-red-500" />
+                            </>)
                             }
-                        </div>
                     </div>
                 </div>
                 <TaskEdit props={props} />
