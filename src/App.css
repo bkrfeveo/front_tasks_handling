@@ -5,3 +5,7 @@
   text-align: center;
 }
 
+.box-shadow-css {
+  box-shadow: rgba(0, 72, 253, 0.24) 0px 3px 8px;
+}
+

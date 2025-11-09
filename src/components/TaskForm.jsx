@@ -1,4 +1,4 @@
-import { Button, Checkbox, Label, Modal, ModalBody, ModalHeader, Select, Textarea, TextInput } from "flowbite-react";
+import { Label, Modal, ModalBody, ModalHeader, Select, Textarea, TextInput } from "flowbite-react";
 import { useState } from "react";
 import api from "../services/api";
 
@@ -60,10 +60,10 @@ export default function TaskForm() {
     return (
         <div>
             <button 
-                className="bg-blue-500 hover:bg-blue-600 duration-200 active:bg-blue-600 text-white font-medium py-2 px-10 w-full text-lg rounded-[10px] mx-auto"
+                className="bg-blue-500 hover:bg-blue-600 duration-200 active:bg-blue-600 text-white font-medium min-w-48 w-full py-2 px-6 rounded-[10px]"
                 onClick={() => setOpenModal(true)}
-            >Ajouter une tâche</button>
-            <Modal show={openModal} size="md" onClose={onCloseModal} popup>
+            >Nouvelle tâche</button>
+            <Modal show={openModal} size="lg" onClose={onCloseModal} popup>
                 <ModalHeader />
                 <ModalBody>
                     <div className="space-y-6">
@@ -103,9 +103,9 @@ export default function TaskForm() {
                                     onChange={(e) => setNewTask({ ...newTask, priority: e.target.value })}
                                 >
                                     <option value="">Selectionner</option>
-                                    <option value="low">faible</option>
-                                    <option value="medium">moyen</option>
-                                    <option value="high">élevé</option>
+                                    <option value="faible">faible</option>
+                                    <option value="moyen">moyen</option>
+                                    <option value="eleve">élevé</option>
                                 </Select>
                             </div>
                             <div className="w-1/2">
