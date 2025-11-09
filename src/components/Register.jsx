@@ -38,12 +38,12 @@ const Register = ()  => {
             } else {
                 setMessageError("");
                 setDatasRegister({...datasRegister, password: password1});
-                console.log(datasRegister);
                 
                 setLoading(true);
                 setError(false);
-    
-                await api.post('/auth/register', datasRegister);
+                
+                const response = await api.post('/auth/register', datasRegister);
+                console.log(response);
                 
                 setDatasRegister({
                     firstName: "",
@@ -56,6 +56,8 @@ const Register = ()  => {
 
         } catch(err) {
             console.error("Inscription echouée : ", err);
+            setError(true);
+            setMessageError()
         } finally {
             setLoading(false);
             // errorTitle ? setOpenModal(false) : setOpenModal(true)
@@ -63,8 +65,8 @@ const Register = ()  => {
     }
     
     return(
-        <div className="w-full flex flex-col gap-4 items-center h-screen">
-            <form className="w-full box-shadow-css shadow-blue-400 rounded-xl p-4 flex flex-col gap-8">
+        <div className="w-full flex flex-col gap-4 items-center">
+            <form className="w-full box-shadow-css shadow-blue-400 rounded-xl mb-20 p-4 flex flex-col gap-8">
                 <div className="flex flex-col gap-3">
                     <h2 className="text-gray-600 text-center font-bold text-3xl">Inscription</h2>
                     <p className="text-gray-700 px-2">Creer un compte et commencer à gérer vos tâches</p>
@@ -142,10 +144,10 @@ const Register = ()  => {
                     <p className="text-red-400 text-base text-left font-medium">{messageError}</p>                    
                 </div>
                 <Button onClick={handleSubmit} className="text-md" type="submit">S'inscrire</Button>
-                <div className="flex flex-row gap-1 justify-center text-sm">
-                    <p>Déjà un compte ? </p>
+                <p className="text-center text-sm">
+                    <span>Déjà un compte ? </span>
                     <a className="font-semibold text-blue-500" href="/connexion">connectez-vous</a>
-                </div>
+                </p>
             </form>
         </div>
     )

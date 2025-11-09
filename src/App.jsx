@@ -1,22 +1,25 @@
-import { useState } from 'react'
 import './App.css'
-import TaskList from './components/TaskList'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import TaskList from './components/TaskList'
 import Login from './components/Login'
 import Register from './components/Register'
+import ProtectedRoute from './components/ProtectedRoute'
 
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route 
-            path='/' 
-            element={<TaskList />}
-          />
+            <Route 
+              path='/' 
+              element={
+                // <ProtectedRoute>
+                  <TaskList />
+                // </ProtectedRoute>
+              }
+            />
           <Route 
             path='/connexion' 
             element={<Login />}
