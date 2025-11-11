@@ -4,6 +4,7 @@ import { useState } from "react";
 import { IoEye } from "react-icons/io5";
 import { GoIssueClosed } from "react-icons/go";
 import { IoIosCloseCircleOutline } from "react-icons/io";
+import api from "../services/api";
 
 
 
@@ -19,6 +20,15 @@ const TaskItem = ({ props }) => {
     function onOpenModal() {
         setOpenModal(true);
     }
+
+    const handleMarkUncompletedTask = async ({props}) => {
+        try {
+            await api.put(`tasks/${props._id}`, {...props, completed: false});
+            console.log("Tache marquée comme non terminée");
+        } catch (err) {
+            console.error("Mis a jour du statut de la tache échoué : ", err);
+        }
+    };
 
     return (
         <div>
@@ -48,9 +58,9 @@ const TaskItem = ({ props }) => {
                             <div className="flex flex-col">
                                 <h3 className="text-md font-semibold text-gray-200 pb-2">Niveau de priorité </h3>
                                 <p className="text-gray-300">
-                                    {props.priority === "faible" && 'Faible'}
-                                    {props.priority === "moyen" && 'Moyen'}
-                                    {props.priority === "eleve" && 'Elevé'}
+                                    {(props.priority === "faible" || props.priority === "low")&& 'Faible'}
+                                    {(props.priority === "moyen" || props.priority === "medium") && 'Moyen'}
+                                    {(props.priority === "eleve" || props.priority === "high") && 'Elevé'}
                                 </p>
                             </div>
                             <div className="flex flex-col gap-0">
@@ -61,20 +71,26 @@ const TaskItem = ({ props }) => {
                                 </p>
                             </div>
                         </div>
-                        <div className="flex flex-row gap-2 items-center pb-2">
                             {props.completed ?
-                                (<>
-                                    <h3 className="text-md font-semibold text-gray-200">Tache terminée </h3>
-                                    <GoIssueClosed className="text-xl text-green-400" />
-                                </>)
+                                (<div className="flex flex-row justify-between w-full items-center">
+                                    <div className="flex flex-row gap-2 items-center">
+                                        <h3 className="text-md font-semibold text-gray-200">Tache terminée </h3>
+                                        <GoIssueClosed className="text-xl text-green-400" />
+                                    </div>
+                                    <button
+                                        className="border border-red-400 hover:bg-red-500/10 w-fit text-white hover:text-white active:text-white duration-200 active:bg-red-600/50 text-xs py-1.5 px-3 rounded-sm"
+                                        onClick={() => handleMarkUncompletedTask({props})}
+                                    >
+                                        Marquez comme non terminée
+                                    </button>
+                                </div>)
                         
                             :
-                                (<>
+                                (<div className="flex flex-row gap-2 items-center pb-2">
                                     <h3 className="text-md font-semibold text-gray-200">Tache non terminée </h3>
                                     <IoIosCloseCircleOutline className="text-xl text-red-500" />
-                                </>)
-                                }
-                        </div>
+                                </div>)
+                            }
                     </div>
                 </ModalBody>
             </Modal>           

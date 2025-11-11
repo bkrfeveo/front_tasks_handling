@@ -11,13 +11,13 @@ const TaskEdit = ({ props}) => {
 
     
     const [ editTask, setEditTask ] = useState({ 
-            title: props?.title, 
-            description: props?.description, 
-            priority: props?.priority, 
-            completed: props?.completed, 
-            dueDate: props?.dueDate, 
-            updateAt: dateUpdated
-        });
+        title: props?.title, 
+        description: props?.description, 
+        priority: props?.priority, 
+        completed: props?.completed, 
+        dueDate: props?.dueDate, 
+        updateAt: dateUpdated
+    });
 
     function onCloseModal() {
         setOpenModal(false);
@@ -31,12 +31,13 @@ const TaskEdit = ({ props}) => {
         });
     }
 
+    // console.log(props._id);
     async function handleEditTask () {
         try {
             setLoading(true);
-            await api.put(`/tasks/${props.id}`, editTask);
-            console.log('Tache mise a jour avec succes !');
+            await api.put(`/tasks/${props._id}`, editTask);
             
+            console.log('Tache mise a jour avec succes !');
         } catch (err) {
            console.error("Mise à jour de la tache echouée : ", err);
         } finally {
@@ -117,7 +118,7 @@ const TaskEdit = ({ props}) => {
                                 type="submit"
                                 onClick={() => handleEditTask()}
                             >
-                                Modifier
+                                {loading ? "Patientez..." : "Modifier"}
                             </button>
                         </div>
                     </div>

@@ -51,13 +51,14 @@ export default function TaskForm() {
                     dueDate: "", 
                     createdAt: "" 
                 });
+                errorTitle ? setOpenModal(false) : setOpenModal(true);
             }
-
+            
         } catch(err) {
             console.error("Ajout de nouvelle tache echouée : ", err);
         } finally {
             setLoading(false);
-            errorTitle ? setOpenModal(false) : setOpenModal(true)
+            setOpenModal(true);
         }
     }
 
