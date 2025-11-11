@@ -17,6 +17,9 @@ export default function TaskForm() {
         createdAt: dateCreated 
     });
 
+    // const user = JSON.parse(localStorage.getItem('user'))
+    // console.log(user);
+    
 
     function onCloseModal() {
         setOpenModal(false);
@@ -26,6 +29,7 @@ export default function TaskForm() {
             priority: "", 
             completed: false, 
             dueDate: "", 
+            // createdBy: user.id,
             createdAt: "" 
         });
     }

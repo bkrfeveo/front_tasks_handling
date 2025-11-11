@@ -1,6 +1,7 @@
 import { useState } from "react";
 import api from "../services/api";
 import { Button } from "flowbite-react";
+import { useNavigate } from "react-router-dom";
 
 
 const Register = ()  => {
@@ -17,6 +18,7 @@ const Register = ()  => {
     const [error, setError] = useState(false);
     const [messageError, setMessageError] = useState("");
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     async function handleSubmit (e) {
         e.preventDefault();
@@ -52,6 +54,7 @@ const Register = ()  => {
                     email: "",
                     password: ""
                 });
+                navigate("/connexion");
             }
 
         } catch(err) {
@@ -143,7 +146,13 @@ const Register = ()  => {
                     {error && <p className="text-red-400 text-base text-left font-medium">{messageError}</p>}
                     <p className="text-red-400 text-base text-left font-medium">{messageError}</p>                    
                 </div>
-                <Button onClick={handleSubmit} className="text-md" type="submit">S'inscrire</Button>
+                <Button  
+                    onClick={handleSubmit} 
+                    className={`text-md ${loading && 'opacity-50 pointer-events-none'}`} 
+                    type="submit"
+                >
+                    {!loading ? "S'inscrire" : "Patientez..."}
+                </Button>
                 <p className="text-center text-sm">
                     <span>Déjà un compte ? </span>
                     <a className="font-semibold text-blue-500" href="/connexion">connectez-vous</a>

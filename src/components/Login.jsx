@@ -11,7 +11,6 @@ const Login = ()  => {
         username: "",
         password: ""
     });
-    const [token, setToken] = useState("");
     const [messageError, setMessageError] = useState(false);
     const [loading, setLoading] = useState(false);
     const navigate  = useNavigate();
@@ -27,11 +26,11 @@ const Login = ()  => {
                 setLoading(true);
                 setMessageError(false);
                 const response = await api.post('/auth/login', datasLogin);
-                setToken(response.data.accessToken);
-                // console.log(response);
+                console.log(response);
 
                 // Stocker le token dans le localStorage
                 localStorage.setItem("token", response.data.accessToken);
+                localStorage.setItem("user", JSON.stringify(response.data.user));
                 // Rediriger l'utilisateur a la page d'accueil
                 navigate("/");
                 
@@ -48,7 +47,6 @@ const Login = ()  => {
             // errorTitle ? setOpenModal(false) : setOpenModal(true)
         }
     }
-    console.log(token);
     
 
     return(

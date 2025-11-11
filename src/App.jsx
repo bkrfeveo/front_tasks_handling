@@ -15,9 +15,9 @@ function App() {
             <Route 
               path='/' 
               element={
-                // <ProtectedRoute>
+                <ProtectedRoute>
                   <TaskList />
-                // </ProtectedRoute>
+                </ProtectedRoute>
               }
             />
           <Route 

@@ -20,9 +20,12 @@ const TaskList = () => {
     // Fonction asynchrone pour recuperer tous les taches
     async function fetchTasks() { 
         try {
+            // const token = localStorage.getItem('token')
+            // console.log(token);
+            
             // Activer le loading avant la demande
             setLoading(true);
-            const response = (await api.get('/tasks'));
+            const response = await api.get('/tasks');
             // console.log(response);
             setTasks(response.data.tasks);
         } catch (err) {
@@ -118,103 +121,103 @@ const TaskList = () => {
                             type="reset"
                             onClick={handleReset}
                             value="Reinitialiser"
-                        />
+                            />
                     </div>
                     <TaskForm />
                 </div>
             </div>
-            <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 flex-col gap-6 w-full">
-                {loading && (
-                    <div className="text-lg font-medium flex items-center justify-center mb-6 text-center">
-                        <h3>Patientez...</h3>
-                    </div>)}
+            {loading && (
+                <div className="text-xl font-medium w-full flex justify-center mt-16 text-center">
+                    <h3>Patientez...</h3>
+                </div>
+            )}
 
-                {filteredTasks.length === 0 && (
-                    <div className="text-lg font-medium flex items-center justify-center mb-6 text-center">
-                        <h3>Aucune tache disponible. Veuillez en ajouter.</h3>
-                    </div>
-                )}
-                
+            {!loading && filteredTasks.length === 0 && (
+                <div className="text-xl font-medium w-full flex justify-center mt-16 text-center">
+                    <h3>Aucune tache disponible. Veuillez en ajouter.</h3>
+                </div>
+            )}
+            <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 flex-col gap-6 w-full justify-center">
                 {(!loading && filteredTasks.length !== 0) && filteredTasks.map((task, index) => (
-                    <div 
-                        className="bg-gray-200 rounded-lg px-4 py-8 flex flex-row items-start justify-between gap-4"
-                        key={task.id} 
-                    >
-                        <div className="flex flex-col gap-8 justify-between w-full h-full">
-                            <div className="flex flex-row justify-between items-start w-full">
-                                <div className="flex flex-col gap-4 w-full">
-                                    <h2 className="flex flex-col text-2xl font-semibold text-gray-800 justify-start text-left">
-                                        {/* <span className="font-bold text-gray-700">Titre </span> */}
-                                        <span>{task.title}</span>
+                <div 
+                    className="bg-gray-200 rounded-lg px-4 py-8 flex flex-row items-start justify-between gap-4"
+                    key={task.id} 
+                >
+                    <div className="flex flex-col gap-8 justify-between w-full h-full">
+                        <div className="flex flex-row justify-between items-start w-full">
+                            <div className="flex flex-col gap-4 w-full">
+                                <h2 className="flex flex-col text-2xl font-semibold text-gray-800 justify-start text-left">
+                                    {/* <span className="font-bold text-gray-700">Titre </span> */}
+                                    <span>{task.title}</span>
+                                </h2>
+                                <h2 className="flex flex-col justify-start text-left">
+                                    <span className="font-bold text-gray-700">Description </span>
+                                    <span>{task.description}</span>
+                                </h2>
+                                {/* <h2 className="flex flex-col justify-start text-left">
+                                    <span className="font-bold text-gray-700">Date limite </span>
+                                    <span>{task.dueDate}</span>
+                                </h2> */}
+                                {task.priority === 'faible' &&
+                                    <h2 className=" flex flex-row gap-2 justify-start text-left font-medium text-blue-500">
+                                        <span className="font-medium text-gray-700">Priorité</span>
+                                        <span>Faible</span>
                                     </h2>
-                                    <h2 className="flex flex-col justify-start text-left">
-                                        <span className="font-bold text-gray-700">Description </span>
-                                        <span>{task.description}</span>
+                                }
+                                {task.priority === 'moyen' &&
+                                    <h2 className="flex flex-row gap-2 justify-start text-left font-medium text-green-500">
+                                        <span className="font-medium text-gray-700">Priorité</span>
+                                        <span>Moyen</span>
                                     </h2>
-                                    {/* <h2 className="flex flex-col justify-start text-left">
-                                        <span className="font-bold text-gray-700">Date limite </span>
-                                        <span>{task.dueDate}</span>
-                                    </h2> */}
-                                    {task.priority === 'faible' &&
-                                        <h2 className=" flex flex-row gap-2 justify-start text-left font-medium text-blue-500">
-                                            <span className="font-medium text-gray-700">Priorité</span>
-                                            <span>Faible</span>
-                                        </h2>
-                                    }
-                                    {task.priority === 'moyen' &&
-                                        <h2 className="flex flex-row gap-2 justify-start text-left font-medium text-green-500">
-                                            <span className="font-medium text-gray-700">Priorité</span>
-                                            <span>Moyen</span>
-                                        </h2>
-                                    }
-                                    {task.priority === 'eleve' &&
-                                        <h2 className="flex flex-row gap-2 justify-start text-left font-medium text-red-500">
-                                            <span className="font-medium text-gray-700">Priorité</span>
-                                        <span>Elevé</span>
-                                        </h2>
-                                    }
-                                    <label
-                                        className="flex flex-row gap-2 font-medium text-gray-700 items-center"
-                                        htmlFor="taskCompleted"
-                                    >
-                                        <span>Complete</span>
-                                        <input
-                                            className="rounded-xs"
-                                            checked={taskCompleted[index]}
-                                            onChange={handleCompletedTask}
-                                            type="checkbox"
-                                            name="completed"
-                                            id="taskCompleted"
-                                        />
-                                    </label>
-                                </div>
-                                <Popover
-                                    arrow={false}
-                                    clearTheme={{ base: true }}
-                                    className="rounded-lg"
-                                    aria-labelledby="default-popover"
-                                    content={
-                                        <div className="flex flex-col w-fit justify-start bg-gray-200 no-underline">
-                                            {/* <TaskItem props={task} /> */}
-                                            <TaskEdit props={task} />
-                                            <button 
-                                                onClick={() => handleDeleteTask(task.id)}
-                                                className="flex flex-row gap-2 items-center py-1.5 px-2.5 text-gray-600 text-left cursor-pointer hover:bg-gray-300 duration-200 w-full"
-                                            >
-                                                <MdDelete className="text-lg" />
-                                                <span>Supprimer</span>
-                                            </button>
-                                        </div>
-                                    }
+                                }
+                                {task.priority === 'eleve' &&
+                                    <h2 className="flex flex-row gap-2 justify-start text-left font-medium text-red-500">
+                                        <span className="font-medium text-gray-700">Priorité</span>
+                                    <span>Elevé</span>
+                                    </h2>
+                                }
+                                <label
+                                    className="flex flex-row gap-2 font-medium text-gray-700 items-center"
+                                    htmlFor="taskCompleted"
                                 >
-                                    <button>
-                                        <SlOptionsVertical />
-                                    </button>
-                                </Popover>
+                                    <span>Complete</span>
+                                    <input
+                                        className="rounded-xs"
+                                        checked={taskCompleted[index]}
+                                        onChange={handleCompletedTask}
+                                        type="checkbox"
+                                        name="completed"
+                                        id="taskCompleted"
+                                    />
+                                </label>
                             </div>
-                            <TaskItem props={task} />
+                            <Popover
+                                arrow={false}
+                                clearTheme={{ base: true }}
+                                className="rounded-lg"
+                                aria-labelledby="default-popover"
+                                content={
+                                    <div className="flex flex-col w-fit justify-start bg-gray-200 no-underline">
+                                        {/* <TaskItem props={task} /> */}
+                                        <TaskEdit props={task} />
+                                        <button 
+                                            onClick={() => handleDeleteTask(task.id)}
+                                            className="flex flex-row gap-2 items-center py-1.5 px-2.5 text-gray-600 text-left cursor-pointer hover:bg-gray-300 duration-200 w-full"
+                                        >
+                                            <MdDelete className="text-lg" />
+                                            <span>Supprimer</span>
+                                        </button>
+                                    </div>
+                                }
+                            >
+                                <button>
+                                    <SlOptionsVertical />
+                                </button>
+                            </Popover>
                         </div>
+                        <TaskItem props={task} />
                     </div>
+                </div>
                 ))}
             </div>
         </div>
